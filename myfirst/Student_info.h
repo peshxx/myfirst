@@ -4,15 +4,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+using namespace std;
 struct Student_info 
 {
-	std::string name;
+	string name;
 	double midterm, final;
-	std::vector<double> homework;
+	vector<double> homework;
 };
 
 bool compare(const Student_info&, const Student_info&);
-std::istream& read(std::istream&, Student_info&);
-std::istream& read_hw(std::istream&, std::vector<double>&);
+istream& read(istream&, Student_info&);
+istream& read_hw(istream&, vector<double>&);
 #endif

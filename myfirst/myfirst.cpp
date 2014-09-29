@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Student_info.h"
+#include "grade.h"
 
 using namespace std;
 
@@ -52,48 +54,37 @@ vector<string> split(const string& str)
 
 int main(int, char **, char **)
 {
-	cout << "Please enter your first name: ";
-	string name;
-	cin >> name;
-	cout << "Hello" << name << " !" << endl;
+	vector<Student_info> students;
+	Student_info record;
 
-	cout << "Please inter your midteam and final exam grades: ";
-	double midterm, final;
-	cin >> midterm >> final;
+	string::size_type maxlen = 0;
 
-	cout << "Please inter your homework grades: ";
-	vector<double> homework;
-	double x;
-
-	while(cin >> x)
+	while(read(cin, record))
 	{
-		homework.push_back(x);
+		maxlen = max(maxlen, record.name.size());
+		students.push_back(record);
 	}
 
-	typedef vector<double>::size_type vec_sz;
+	sort(students.begin(), students.end(), compare);
 
-	vec_sz size = homework.size();
-
-	if (size == 0)
+	for (vector<Student_info>::size_type i = 0; i!= students.size(); i++)
 	{
-		cout << endl << "Your must enter your grades. "
-			<<"Please try again." <<endl;
-		return 1;
+		cout << setw(maxlen+1) << students[i].name;
+
+		try
+		{
+			double final_grade = grade(students[i]);
+			streamsize prec = cout.precision();
+			cout << setprecision(3) << final_grade
+				<< setprecision(prec);
+		}
+		catch (domain_error e)
+		{
+			cout << e.what();
+		}
+		cout << endl;
+
 	}
-
-	sort(homework.begin(), homework.end());
-
-	vec_sz mid = size/2;
-
-	double median;
-
-	median = (size%2 == 0) ? (homework[mid] + homework[mid-1]) / 2 
-		:homework[mid];
-
-	streamsize prec = cout.precision();
-	cout << "Your final grade is " << setprecision(3)
-		<< 0.2 * midterm + 0.4 * final + 0.4 * median
-		<< setprecision(prec) <<endl;
 
 	return 0;
 }

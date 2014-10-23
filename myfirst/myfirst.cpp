@@ -192,6 +192,7 @@ int main()
 
 }
 
+
 char * left(const char * str, int n)
 {
 	if (n < 0)
